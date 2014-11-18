@@ -5,19 +5,42 @@
     <script src="dropzone.min.js"></script>
 
     <script>
-      var app = angular.module("dropZone", []);
+      var app = angular.module("app", []);
 
       app.controller("main", function($scope){
-        console.log("init")
+
+        $scope.dropZoneConfig = {
+          'options': {
+            'url': 'cakephp/method',
+            'type': 'post'
+          },
+          'eventHandlers': {
+            'sending': function (file, xhr, formData) {
+              console.log(file)
+            },
+            'success': function (file, response) {
+              console.log(response)
+            }
+          }
+        };
+
       });
 
       app.directive("dropZone", function(){
         return {
-          restrict "E",
+          restrict: "E",
           scope: true,
           link: function(scope, element, attr){
-            console.log(element)
-          }
+
+            var config = scope.dropZoneConfig;
+            var dropzone = new Dropzone("#dropzone", config.options );
+
+            angular.forEach(config.eventHandlers, function (handler, event) {
+              dropzone.on(event, handler);
+            });
+
+          },
+          template: '<form id="dropzone" class="dropzone"> <input type="hidden" value="option value to cakephp"> </form>',
         }
       });
 
@@ -30,7 +53,6 @@
   <body ng-controller="main">
 
     <drop-zone></drop-zone>
-    <form id="my-awesome-dropzone" action="/target" class="dropzone"></form>
 
   </body>
 
