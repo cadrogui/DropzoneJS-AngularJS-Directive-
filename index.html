@@ -1,0 +1,37 @@
+<html ng-app="app">
+
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script src="dropzone.min.js"></script>
+
+    <script>
+      var app = angular.module("dropZone", []);
+
+      app.controller("main", function($scope){
+        console.log("init")
+      });
+
+      app.directive("dropZone", function(){
+        return {
+          restrict "E",
+          scope: true,
+          link: function(scope, element, attr){
+            console.log(element)
+          }
+        }
+      });
+
+    </script>
+
+    <link type="text/css" rel="stylesheet" href="css/dropzone.css" />
+
+  </head>
+
+  <body ng-controller="main">
+
+    <drop-zone></drop-zone>
+    <form id="my-awesome-dropzone" action="/target" class="dropzone"></form>
+
+  </body>
+
+</html>
